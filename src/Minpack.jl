@@ -87,7 +87,7 @@ function hybrd(residual, x0, args, tol=1e-8)
     # call hybrd.  must pass by reference for Fortran
     # compilation command I used (OS X with gfortran):
     # gfortran -shared -O2 *.f -o libhybrd.dylib -fPIC
-    ccall( (:hybrd1_, "src/libhybrd"), Void, (Ref{Void}, Ref{Cint}, Ref{Cdouble},
+    ccall( (:hybrd1_, "deps/src/libhybrd"), Void, (Ref{Void}, Ref{Cint}, Ref{Cdouble},
         Ref{Cdouble}, Ref{Cdouble}, Ref{Cint}, Ref{Cdouble}, Ref{Cint}),
         res_func, n, x, f, tol, info_in, wa, lwa)
     info = info_in[1]  # extract termination info
