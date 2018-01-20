@@ -8,4 +8,4 @@ Julia wrapper to the fortran MINPACK library used for solving systems of nonline
 
 [![codecov.io](http://codecov.io/github/byuflowlab/Minpack.jl/coverage.svg?branch=master)](http://codecov.io/github/byuflowlab/Minpack.jl?branch=master)
 
-
+After Pkg.clone(...) be sure to do a Pkg.build("Minpack") to build the fortran dependencies (windows not supported).
