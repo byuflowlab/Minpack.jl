@@ -62,24 +62,6 @@ function hybrd(residual, x0, args, tol=1e-8)
 
     f : array of length(x0)
         contains the functions evaluated at the output x.
-
-    info : integer
-        if the user has terminated execution, info is set to the (negative)
-        value of iflag.otherwise, info is set as follows.
-
-        info = 0   improper input parameters.
-
-        info = 1   algorithm estimates that the relative error
-                   between x and the solution is at most tol.
-
-        info = 2   number of calls to fcn has reached or exceeded
-                   200*(n+1).
-
-        info = 3   tol is too small. no further improvement in
-                   the approximate solution x is possible.
-
-        info = 4   iteration is not making good progress.
-
     """
 
     # initialize
@@ -105,12 +87,22 @@ function hybrd(residual, x0, args, tol=1e-8)
     # call hybrd.  must pass by reference for Fortran
     # compilation command I used (OS X with gfortran):
     # gfortran -shared -O2 *.f -o libhybrd.dylib -fPIC
-    ccall( (:hybrd1_, "libhybrd"), Void, (Ptr{Void}, Ptr{Cint}, Ptr{Cdouble},
-        Ptr{Cdouble}, Ptr{Cdouble}, Ptr{Cint}, Ptr{Cdouble}, Ptr{Cint}),
-        res_func, &n, x, f, &tol, info_in, wa, &lwa)
+    ccall( (:hybrd1_, "src/libhybrd"), Void, (Ref{Void}, Ref{Cint}, Ref{Cdouble},
+        Ref{Cdouble}, Ref{Cdouble}, Ref{Cint}, Ref{Cdouble}, Ref{Cint}),
+        res_func, n, x, f, tol, info_in, wa, lwa)
     info = info_in[1]  # extract termination info
 
-    return x, f, info
+    if info == 0
+        error("improper input parameters.")
+    elseif info == 2
+        warn("number of calls to fcn has reached or exceeded 200*(n+1).")
+    elseif info == 3
+        warn("tol is too small. no further improvement in the approximate solution x is possible.")
+    elseif info == 4
+        warn("iteration is not making good progress.")
+    end
+
+    return x, f
 end
 
 end # module
