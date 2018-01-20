@@ -1,5 +1,5 @@
 FC = gfortran
-LIB = hybrid
+LIB = minpack
 FFLAGS = -shared -O2 -fPIC
 SUFFIX = dylib
 
