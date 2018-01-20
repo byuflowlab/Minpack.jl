@@ -1,6 +1,6 @@
 # Minpack
 
-Julia wrapper to the fortran MINPACK library used for solving systems of nonlinear equations
+Julia wrapper to the fortran MINPACK library used for solving systems of nonlinear equations.  Currently I have wrapped only hybrd (which is the default method used in scipy.optimize.root), though wrapping others (like the  Levenberg-Marquardt algorithm) would be straightforward to add.
 
 [![Build Status](https://travis-ci.org/byuflowlab/Minpack.jl.svg?branch=master)](https://travis-ci.org/byuflowlab/Minpack.jl)
 
